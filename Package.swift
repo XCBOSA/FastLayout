@@ -21,8 +21,5 @@ let package = Package(
         .target(
             name: "FastLayout",
             dependencies: []),
-        .testTarget(
-            name: "FastLayoutTests",
-            dependencies: ["FastLayout"]),
     ]
 )
