@@ -10,14 +10,49 @@ import UIKit
 public class FLAnchorWithOffset<AnchorType> where AnchorType: NSObject {
     public private(set) var baseAnchor: NSLayoutAnchor<AnchorType>
     public private(set) var offset: CGFloat
+    public private(set) var multiplier: CGFloat
     
-    init (withAnchor anchor: NSLayoutAnchor<AnchorType>, offset: CGFloat) {
+    init (withAnchor anchor: NSLayoutAnchor<AnchorType>, offset: CGFloat, multiplier: CGFloat) {
         self.baseAnchor = anchor
         self.offset = offset
+        self.multiplier = multiplier
+    }
+    
+    func getAnchor<AsType>() -> AsType {
+        guard let anchor = baseAnchor as? AsType else {
+            var classA = "[Not Objc Class]", classB = NSStringFromClass(AnchorType.self)
+            if let type = AsType.self as? AnyClass {
+                classA = NSStringFromClass(type)
+            }
+            fatalError("Constraint require \(classA), but got \(classB)")
+        }
+        return anchor
+    }
+    
+    func makeSureDefaultMultiplier() {
+        if multiplier != 1 {
+            fatalError("Constraint with NSLayoutXAxisAnchor or NSLayoutYAxisAnchor can't use multiplier or div operator.")
+        }
+    }
+    
+    public static func + (lhs: FLAnchorWithOffset, rhs: CGFloat) -> FLAnchorWithOffset<AnchorType> {
+        FLAnchorWithOffset(withAnchor: lhs.baseAnchor, offset: lhs.offset + rhs, multiplier: lhs.multiplier)
+    }
+    
+    public static func - (lhs: FLAnchorWithOffset, rhs: CGFloat) -> FLAnchorWithOffset<AnchorType> {
+        FLAnchorWithOffset(withAnchor: lhs.baseAnchor, offset: lhs.offset - rhs, multiplier: lhs.multiplier)
+    }
+    
+    public static func * (lhs: FLAnchorWithOffset, rhs: CGFloat) -> FLAnchorWithOffset<AnchorType> {
+        FLAnchorWithOffset(withAnchor: lhs.baseAnchor, offset: lhs.offset, multiplier: lhs.multiplier * rhs)
+    }
+    
+    public static func / (lhs: FLAnchorWithOffset, rhs: CGFloat) -> FLAnchorWithOffset<AnchorType> {
+        FLAnchorWithOffset(withAnchor: lhs.baseAnchor, offset: lhs.offset, multiplier: lhs.multiplier / rhs)
     }
 }
 
-public func FLCreateAndActiveConstraint<AnchorType>(_ lhs: NSLayoutAnchor<AnchorType>, _ rhs: FLAnchorWithOffset<AnchorType>, method: (NSLayoutAnchor<AnchorType>, FLAnchorWithOffset<AnchorType>) -> NSLayoutConstraint) -> NSLayoutConstraint {
+public func FLCreateAndActiveConstraint<AnchorType>(_ lhs: AnchorType, _ rhs: FLAnchorWithOffset<AnchorType>, method: (AnchorType, FLAnchorWithOffset<AnchorType>) -> NSLayoutConstraint) -> NSLayoutConstraint {
     let constraint = method(lhs, rhs)
     constraint.isActive = true
     return constraint
@@ -25,28 +60,55 @@ public func FLCreateAndActiveConstraint<AnchorType>(_ lhs: NSLayoutAnchor<Anchor
 
 extension NSLayoutDimension {
     public static func + (lhs: NSLayoutDimension, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutDimension> {
-        FLAnchorWithOffset(withAnchor: lhs, offset: rhs)
+        FLAnchorWithOffset(withAnchor: lhs, offset: rhs, multiplier: 1)
     }
+    
     public static func - (lhs: NSLayoutDimension, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutDimension> {
-        FLAnchorWithOffset(withAnchor: lhs, offset: -rhs)
+        FLAnchorWithOffset(withAnchor: lhs, offset: -rhs, multiplier: 1)
+    }
+    
+    public static func * (lhs: NSLayoutDimension, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutDimension> {
+        FLAnchorWithOffset(withAnchor: lhs, offset: 0, multiplier: rhs)
+    }
+    
+    public static func / (lhs: NSLayoutDimension, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutDimension> {
+        FLAnchorWithOffset(withAnchor: lhs, offset: 0, multiplier: 1 / rhs)
     }
 }
 
 extension NSLayoutXAxisAnchor {
     public static func + (lhs: NSLayoutXAxisAnchor, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutXAxisAnchor> {
-        FLAnchorWithOffset(withAnchor: lhs, offset: rhs)
+        FLAnchorWithOffset(withAnchor: lhs, offset: rhs, multiplier: 1)
     }
+    
     public static func - (lhs: NSLayoutXAxisAnchor, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutXAxisAnchor> {
-        FLAnchorWithOffset(withAnchor: lhs, offset: -rhs)
+        FLAnchorWithOffset(withAnchor: lhs, offset: -rhs, multiplier: 1)
+    }
+    
+    public static func * (lhs: NSLayoutXAxisAnchor, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutXAxisAnchor> {
+        FLAnchorWithOffset(withAnchor: lhs, offset: 0, multiplier: rhs)
+    }
+    
+    public static func / (lhs: NSLayoutXAxisAnchor, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutXAxisAnchor> {
+        FLAnchorWithOffset(withAnchor: lhs, offset: 0, multiplier: 1 / rhs)
     }
 }
 
 extension NSLayoutYAxisAnchor {
     public static func + (lhs: NSLayoutYAxisAnchor, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutYAxisAnchor> {
-        FLAnchorWithOffset(withAnchor: lhs, offset: rhs)
+        FLAnchorWithOffset(withAnchor: lhs, offset: rhs, multiplier: 1)
     }
+    
     public static func - (lhs: NSLayoutYAxisAnchor, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutYAxisAnchor> {
-        FLAnchorWithOffset(withAnchor: lhs, offset: -rhs)
+        FLAnchorWithOffset(withAnchor: lhs, offset: -rhs, multiplier: 1)
+    }
+    
+    public static func * (lhs: NSLayoutYAxisAnchor, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutYAxisAnchor> {
+        FLAnchorWithOffset(withAnchor: lhs, offset: 0, multiplier: rhs)
+    }
+    
+    public static func / (lhs: NSLayoutYAxisAnchor, rhs: CGFloat) -> FLAnchorWithOffset<NSLayoutYAxisAnchor> {
+        FLAnchorWithOffset(withAnchor: lhs, offset: 0, multiplier: 1 / rhs)
     }
 }
 
