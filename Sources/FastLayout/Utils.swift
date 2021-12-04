@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Utils.swift
 //  
 //
 //  Created by XCBOSA on 2021/12/4.
@@ -82,6 +82,12 @@ extension UIView {
 }
 
 public func FLCreateAndActiveConstraint<AnchorType>(_ lhs: NSLayoutAnchor<AnchorType>, _ rhs: NSLayoutAnchor<AnchorType>, method: (NSLayoutAnchor<AnchorType>, NSLayoutAnchor<AnchorType>) -> NSLayoutConstraint) -> NSLayoutConstraint {
+    let constraint = method(lhs, rhs)
+    constraint.isActive = true
+    return constraint
+}
+
+public func FLCreateAndActiveConstraint__<AnchorType>(_ lhs: AnchorType, _ rhs: CGFloat, method: (AnchorType, CGFloat) -> NSLayoutConstraint) -> NSLayoutConstraint {
     let constraint = method(lhs, rhs)
     constraint.isActive = true
     return constraint

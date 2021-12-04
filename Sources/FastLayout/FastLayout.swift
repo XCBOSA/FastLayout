@@ -1,3 +1,10 @@
+//
+//  FastLayout.swift
+//
+//
+//  Created by XCBOSA on 2021/12/4.
+//
+
 import UIKit
 
 extension NSLayoutDimension {
@@ -9,6 +16,11 @@ extension NSLayoutDimension {
     @discardableResult
     public static func == (lhs: NSLayoutDimension, rhs: FLAnchorWithOffset<NSLayoutDimension>) -> NSLayoutConstraint {
         FLCreateAndActiveConstraint(lhs, rhs) { $0.constraint(equalTo: $1.getAnchor(), multiplier: rhs.multiplier, constant: $1.offset) }
+    }
+    
+    @discardableResult
+    public static func == (lhs: NSLayoutDimension, rhs: CGFloat) -> NSLayoutConstraint {
+        FLCreateAndActiveConstraint__(lhs, rhs) { $0.constraint(equalToConstant: $1) }
     }
     
     @discardableResult
