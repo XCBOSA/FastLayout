@@ -10,9 +10,9 @@ import UIKit
 public class FLUIViewWithConstraint {
     
     public private(set) var view: UIView
-    public private(set) var constraintExpressions: () -> Void
+    public private(set) var constraintExpressions: (UIView) -> Void
     
-    init (view: UIView, expression: @escaping () -> Void) {
+    init (view: UIView, expression: @escaping (UIView) -> Void) {
         self.view = view
         self.constraintExpressions = expression
     }
@@ -35,14 +35,14 @@ public class FLSubviewArranger {
     }
     
     @discardableResult
-    public func addSubview(subview: UIView, _ constraintExpression: @escaping () -> Void) -> FLSubviewArranger {
+    public func addSubview(subview: UIView, _ constraintExpression: @escaping (UIView) -> Void) -> FLSubviewArranger {
         addSubview(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: constraintExpression))
     }
     
     public func finish() {
         guard let view = view else { return }
         view.addSubViews(subviews.map({ $0.view }))
-        let _: [Void] = subviews.map({ $0.constraintExpressions() })
+        let _: [Void] = subviews.map({ $0.constraintExpressions($0.view) })
     }
     
 }
