@@ -29,14 +29,14 @@ public class FLSubviewArranger {
     }
     
     @discardableResult
-    public func addSubview(subview: FLUIViewWithConstraint) -> FLSubviewArranger {
+    public func addSubview(subviewWithConstraint subview: FLUIViewWithConstraint) -> FLSubviewArranger {
         subviews.append(subview)
         return self
     }
     
     @discardableResult
-    public func addSubview(subview: UIView, constraintExpression: @escaping () -> Void) -> FLSubviewArranger {
-        addSubview(subview: FLUIViewWithConstraint(view: subview, expression: constraintExpression))
+    public func addSubview(subview: UIView, _ constraintExpression: @escaping () -> Void) -> FLSubviewArranger {
+        addSubview(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: constraintExpression))
     }
     
     public func finish() {
@@ -49,8 +49,8 @@ public class FLSubviewArranger {
 
 extension UIView {
     
-    public func arrangeSubview() -> FLSubviewArranger {
-        return FLSubviewArranger(view: self)
+    public var arranger: FLSubviewArranger {
+        FLSubviewArranger(view: self)
     }
     
 }
