@@ -18,7 +18,7 @@ button.setTitleColor(.link, for: .normal)
 self.view.beginArrangeSubviews()
 self.view.arrangerAddSubview(label) {
     $0.leftRight == self.view.leftRight
-    $0.top == self.view.safeAreaLayoutGuide.top
+    $0.top == self.view.safeArea.top
     $0.height == 30                                     // Constraint to 30
 }
 self.view.arrangerAddSubview(button) {

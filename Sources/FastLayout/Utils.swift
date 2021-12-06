@@ -75,6 +75,8 @@ extension UIView {
     public var bottomTop: FLAnchorGroup { self.bottom & self.top }
     public var size: FLAnchorGroup { self.width & self.height }
     
+    public var safeArea: UILayoutGuide { self.safeAreaLayoutGuide }
+    
     public var firstBaseLine: NSLayoutYAxisAnchor {
         self.translatesAutoresizingMaskIntoConstraints = false
         return self.firstBaselineAnchor
