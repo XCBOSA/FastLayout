@@ -69,6 +69,10 @@ extension UIView {
     public var topRight: FLAnchorGroup { self.top & self.right }
     public var bottomLeft: FLAnchorGroup { self.bottom & self.left }
     public var bottomRight: FLAnchorGroup { self.bottom & self.right }
+    public var leftRight: FLAnchorGroup { self.left & self.right }
+    public var rightLeft: FLAnchorGroup { self.right & self.left }
+    public var topBottom: FLAnchorGroup { self.top & self.bottom }
+    public var bottomTop: FLAnchorGroup { self.bottom & self.top }
     public var size: FLAnchorGroup { self.width & self.height }
     
     public var firstBaseLine: NSLayoutYAxisAnchor {
@@ -90,6 +94,66 @@ extension UIView {
     public func configureSubView(_ views: UIView ...) {
         self.addSubViews(views)
     }
+    
+}
+
+extension UILayoutGuide {
+    
+    public var left: NSLayoutXAxisAnchor {
+        return self.leftAnchor
+    }
+    
+    public var right: NSLayoutXAxisAnchor {
+        return self.rightAnchor
+    }
+    
+    public var leading: NSLayoutXAxisAnchor {
+        return self.leadingAnchor
+    }
+    
+    public var trailing: NSLayoutXAxisAnchor {
+        return self.trailingAnchor
+    }
+    
+    public var top: NSLayoutYAxisAnchor {
+        return self.topAnchor
+    }
+    
+    public var bottom: NSLayoutYAxisAnchor {
+        return self.bottomAnchor
+    }
+    
+    public var width: NSLayoutDimension {
+        return self.widthAnchor
+    }
+    
+    public var height: NSLayoutDimension {
+        return self.heightAnchor
+    }
+    
+    public var centerX: NSLayoutXAxisAnchor {
+        return self.centerXAnchor
+    }
+    
+    public var centerY: NSLayoutYAxisAnchor {
+        return self.centerYAnchor
+    }
+    
+    public var centerXY: FLAnchorGroup { self.centerX & self.centerY }
+    public var centerYX: FLAnchorGroup { self.centerY & self.centerX }
+    public var leftTop: FLAnchorGroup { self.left & self.top }
+    public var rightTop: FLAnchorGroup { self.right & self.top }
+    public var leftBottom: FLAnchorGroup { self.left & self.bottom }
+    public var rightBottom: FLAnchorGroup { self.right & self.bottom }
+    public var topLeft: FLAnchorGroup { self.top & self.left }
+    public var topRight: FLAnchorGroup { self.top & self.right }
+    public var bottomLeft: FLAnchorGroup { self.bottom & self.left }
+    public var bottomRight: FLAnchorGroup { self.bottom & self.right }
+    public var leftRight: FLAnchorGroup { self.left & self.right }
+    public var rightLeft: FLAnchorGroup { self.right & self.left }
+    public var topBottom: FLAnchorGroup { self.top & self.bottom }
+    public var bottomTop: FLAnchorGroup { self.bottom & self.top }
+    public var size: FLAnchorGroup { self.width & self.height }
     
 }
 
