@@ -181,7 +181,10 @@ extension FLAnchorWithOffsetBaseClass {
 }
 
 extension FLAnchorWithOffsetBaseClass {
-    public static func == (lhs: FLAnchorWithOffsetBaseClass, rhs: FLAnchorWithOffsetBaseClass) {
+    
+    @discardableResult
+    public static func == (lhs: FLAnchorWithOffsetBaseClass, rhs: FLAnchorWithOffsetBaseClass) -> [NSLayoutConstraint] {
+        var constraints = [NSLayoutConstraint]()
         lhs.makeSureDefaultMultiplier()
         let offset = rhs.offset - lhs.offset
         let multiplier = rhs.multiplier
@@ -189,19 +192,21 @@ extension FLAnchorWithOffsetBaseClass {
             guard let rhsAnchor = rhs.anchorObject as? NSLayoutDimension else {
                 fatalError("Constraint expression left is NSLayoutDimesion, but right isn't.")
             }
-            lhsAnchor == rhsAnchor * multiplier + offset
+            constraints.append(lhsAnchor == rhsAnchor * multiplier + offset)
         }
         if let lhsAnchor = lhs.anchorObject as? NSLayoutXAxisAnchor {
             guard let rhsAnchor = rhs.anchorObject as? NSLayoutXAxisAnchor else {
                 fatalError("Constraint expression left is NSLayoutXAxisAnchor, but right isn't.")
             }
-            lhsAnchor == rhsAnchor * multiplier + offset
+            constraints.append(lhsAnchor == rhsAnchor * multiplier + offset)
         }
         if let lhsAnchor = lhs.anchorObject as? NSLayoutYAxisAnchor {
             guard let rhsAnchor = rhs.anchorObject as? NSLayoutYAxisAnchor else {
                 fatalError("Constraint expression left is NSLayoutYAxisAnchor, but right isn't.")
             }
-            lhsAnchor == rhsAnchor * multiplier + offset
+            constraints.append(lhsAnchor == rhsAnchor * multiplier + offset)
         }
+        return constraints
     }
+    
 }
