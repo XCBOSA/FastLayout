@@ -16,12 +16,12 @@ button.setTitleColor(.link, for: .normal)
 
 // MARK: - Arrange subview layout
 self.view.beginArrangeSubviews()
-self.view.arrangerAddSubview(subview: label) {
+self.view.arrangerAddSubview(label) {
     $0.leftTop == self.view.left & self.view.safeAreaLayoutGuide.topAnchor
     $0.right == self.view.right
     $0.height == 30                                     // Constraint to 30
 }
-self.view.arrangerAddSubview(subview: button) {
+self.view.arrangerAddSubview(button) {
     $0.leftTop == self.view.left & (label.bottom + 10)  // left = superLeft, top = label.bottom (offset 10)
     $0.right == self.view.right
     $0.height == label.height * 2                       // height = label.height (multiplier 2)

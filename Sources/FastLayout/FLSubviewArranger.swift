@@ -29,19 +29,19 @@ public class FLSubviewArranger {
     }
     
     @discardableResult
-    public func addSubview(subviewWithConstraint subview: FLUIViewWithConstraint) -> FLSubviewArranger {
+    public func add(subviewWithConstraint subview: FLUIViewWithConstraint) -> FLSubviewArranger {
         subviews.append(subview)
         return self
     }
     
     @discardableResult
-    public func addSubview(subview: UIView) -> FLSubviewArranger {
-        addSubview(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: { _ in }))
+    public func addSubview(_ subview: UIView) -> FLSubviewArranger {
+        add(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: { _ in }))
     }
     
     @discardableResult
-    public func addSubview(subview: UIView, _ constraintExpression: @escaping (UIView) -> Void) -> FLSubviewArranger {
-        addSubview(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: constraintExpression))
+    public func addSubview(_ subview: UIView, _ constraintExpression: @escaping (UIView) -> Void) -> FLSubviewArranger {
+        add(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: constraintExpression))
     }
     
     public func finish() {
@@ -86,16 +86,16 @@ extension UIView {
     /// 如果当前UIView未进行beginArrangeSubviews()或已经调用endArrangeSubviews()，则创建一个新的Arranger并添加组件，否则使用当前UIView的Arranger添加组件
     /// - Parameter subview: 要添加的组件
     /// - Returns: Arranger
-    public func arrangerAddSubview(subviewWithConstraint subview: FLUIViewWithConstraint) -> FLSubviewArranger {
-        arranger.addSubview(subviewWithConstraint: subview)
+    public func arrangerAdd(subviewWithConstraint subview: FLUIViewWithConstraint) -> FLSubviewArranger {
+        arranger.add(subviewWithConstraint: subview)
     }
     
     @discardableResult
     /// 如果当前UIView未进行beginArrangeSubviews()或已经调用endArrangeSubviews()，则创建一个新的Arranger并添加组件，否则使用当前UIView的Arranger添加组件
     /// - Parameter subview: 要添加的组件
     /// - Returns: Arranger
-    public func arrangerAddSubview(subview: UIView) -> FLSubviewArranger {
-        arranger.addSubview(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: { _ in }))
+    public func arrangerAddSubview(_ subview: UIView) -> FLSubviewArranger {
+        arranger.add(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: { _ in }))
     }
     
     @discardableResult
@@ -104,8 +104,8 @@ extension UIView {
     ///   - subview: 要添加的组件
     ///   - constraintExpression: 约束函数
     /// - Returns: Arranger
-    public func arrangerAddSubview(subview: UIView, _ constraintExpression: @escaping (UIView) -> Void) -> FLSubviewArranger {
-        arranger.addSubview(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: constraintExpression))
+    public func arrangerAddSubview(_ subview: UIView, _ constraintExpression: @escaping (UIView) -> Void) -> FLSubviewArranger {
+        arranger.add(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: constraintExpression))
     }
     
 }
