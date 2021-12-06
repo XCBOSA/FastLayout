@@ -6,24 +6,25 @@ FastLayout is a UIKit or AppKit package for fast UI design.
 ```
 import FastLayout
 
+// MARK: - Create and configure subviews
+let label = UILabel()
+let button = UIButton()
+label.text = "Hello"
+label.textAlignment = .center
+button.setTitle("hello world", for: .normal)
+button.setTitleColor(.link, for: .normal)
+
+// MARK: - Arrange subview layout
 self.view.beginArrangeSubviews()
-
-let label = UILabel(); label.text = "Hello"
-let button = UIButton(); button.setTitle("hello world", for: .normal)
-
 self.view.arrangerAddSubview(subview: label) {
-    $0.left == self.view.left
+    $0.leftTop == self.view.left & self.view.safeAreaLayoutGuide.topAnchor
     $0.right == self.view.right
-    $0.top == self.view.safeAreaLayoutGuide.topAnchor
-    $0.height == 30
+    $0.height == 30                                     // Constraint to 30
 }
-
 self.view.arrangerAddSubview(subview: button) {
-    $0.left == self.view.left
+    $0.leftTop == self.view.left & (label.bottom + 10)  // left = superLeft, top = label.bottom (offset 10)
     $0.right == self.view.right
-    $0.top == label.bottom + 5       // Offset = 5
-    $0.height == label.height * 2    // Multiplier = 2
+    $0.height == label.height * 2                       // height = label.height (multiplier 2)
 }
-        
 self.view.endArrangeSubviews()
 ```
