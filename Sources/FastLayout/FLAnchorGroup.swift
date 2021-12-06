@@ -52,8 +52,135 @@ public class FLAnchorGroup {
     
 }
 
+extension NSLayoutDimension {
+    
+    public static func && (lhs: NSLayoutDimension, rhs: NSLayoutDimension) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutDimension>(withAnchor: lhs),
+            FLAnchorWithOffset<NSLayoutDimension>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: NSLayoutDimension, rhs: NSLayoutXAxisAnchor) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutDimension>(withAnchor: lhs),
+            FLAnchorWithOffset<NSLayoutXAxisAnchor>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: NSLayoutDimension, rhs: NSLayoutYAxisAnchor) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutDimension>(withAnchor: lhs),
+            FLAnchorWithOffset<NSLayoutYAxisAnchor>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: NSLayoutDimension, rhs: FLAnchorWithOffsetBaseClass) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutDimension>(withAnchor: lhs),
+            rhs
+        ])
+    }
+    
+}
+
+extension NSLayoutXAxisAnchor {
+    
+    public static func && (lhs: NSLayoutXAxisAnchor, rhs: NSLayoutDimension) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutXAxisAnchor>(withAnchor: lhs),
+            FLAnchorWithOffset<NSLayoutDimension>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: NSLayoutXAxisAnchor, rhs: NSLayoutXAxisAnchor) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutXAxisAnchor>(withAnchor: lhs),
+            FLAnchorWithOffset<NSLayoutXAxisAnchor>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: NSLayoutXAxisAnchor, rhs: NSLayoutYAxisAnchor) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutXAxisAnchor>(withAnchor: lhs),
+            FLAnchorWithOffset<NSLayoutYAxisAnchor>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: NSLayoutXAxisAnchor, rhs: FLAnchorWithOffsetBaseClass) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutXAxisAnchor>(withAnchor: lhs),
+            rhs
+        ])
+    }
+    
+}
+
+extension NSLayoutYAxisAnchor {
+    
+    public static func && (lhs: NSLayoutYAxisAnchor, rhs: NSLayoutDimension) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutYAxisAnchor>(withAnchor: lhs),
+            FLAnchorWithOffset<NSLayoutDimension>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: NSLayoutYAxisAnchor, rhs: NSLayoutXAxisAnchor) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutYAxisAnchor>(withAnchor: lhs),
+            FLAnchorWithOffset<NSLayoutXAxisAnchor>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: NSLayoutYAxisAnchor, rhs: NSLayoutYAxisAnchor) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutYAxisAnchor>(withAnchor: lhs),
+            FLAnchorWithOffset<NSLayoutYAxisAnchor>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: NSLayoutYAxisAnchor, rhs: FLAnchorWithOffsetBaseClass) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            FLAnchorWithOffset<NSLayoutYAxisAnchor>(withAnchor: lhs),
+            rhs
+        ])
+    }
+    
+}
+
 extension FLAnchorWithOffsetBaseClass {
     
+    public static func && (lhs: FLAnchorWithOffsetBaseClass, rhs: NSLayoutDimension) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            lhs,
+            FLAnchorWithOffset<NSLayoutDimension>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: FLAnchorWithOffsetBaseClass, rhs: NSLayoutXAxisAnchor) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            lhs,
+            FLAnchorWithOffset<NSLayoutXAxisAnchor>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: FLAnchorWithOffsetBaseClass, rhs: NSLayoutYAxisAnchor) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            lhs,
+            FLAnchorWithOffset<NSLayoutYAxisAnchor>(withAnchor: rhs)
+        ])
+    }
+    
+    public static func && (lhs: FLAnchorWithOffsetBaseClass, rhs: FLAnchorWithOffsetBaseClass) -> FLAnchorGroup {
+        FLAnchorGroup(withAnchors: [
+            lhs,
+            rhs
+        ])
+    }
+    
+}
+
+extension FLAnchorWithOffsetBaseClass {
     public static func == (lhs: FLAnchorWithOffsetBaseClass, rhs: FLAnchorWithOffsetBaseClass) {
         lhs.makeSureDefaultMultiplier()
         let offset = rhs.offset - lhs.offset
@@ -77,5 +204,4 @@ extension FLAnchorWithOffsetBaseClass {
             lhsAnchor == rhsAnchor * multiplier + offset
         }
     }
-    
 }
