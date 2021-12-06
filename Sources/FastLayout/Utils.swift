@@ -75,7 +75,13 @@ extension UIView {
     public var bottomTop: FLAnchorGroup { self.bottom & self.top }
     public var size: FLAnchorGroup { self.width & self.height }
     
-    public var safeArea: UILayoutGuide { self.safeAreaLayoutGuide }
+    public var safeArea: UILayoutGuide {
+        if #available(iOS 11.0, *) {
+            return self.safeAreaLayoutGuide
+        } else {
+            fatalError("Not support before iOS11.")
+        }
+    }
     
     public var firstBaseLine: NSLayoutYAxisAnchor {
         self.translatesAutoresizingMaskIntoConstraints = false
