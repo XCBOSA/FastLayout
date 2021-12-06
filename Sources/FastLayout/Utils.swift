@@ -59,6 +59,13 @@ extension UIView {
         return self.centerYAnchor
     }
     
+    public var center: FLAnchorGroup { self.centerX & self.centerY }
+    public var leftTop: FLAnchorGroup { self.left & self.top }
+    public var rightTop: FLAnchorGroup { self.right & self.top }
+    public var leftBottom: FLAnchorGroup { self.left & self.bottom }
+    public var rightBottom: FLAnchorGroup { self.right & self.bottom }
+    public var size: FLAnchorGroup { self.width & self.height }
+    
     public var firstBaseLine: NSLayoutYAxisAnchor {
         self.translatesAutoresizingMaskIntoConstraints = false
         return self.firstBaselineAnchor
