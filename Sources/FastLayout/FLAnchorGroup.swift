@@ -39,15 +39,17 @@ public class FLAnchorGroup {
         return FLAnchorGroup(withAnchors: anchors)
     }
     
-    public static func == (lhs: FLAnchorGroup, rhs: FLAnchorGroup) {
+    public static func == (lhs: FLAnchorGroup, rhs: FLAnchorGroup) -> [NSLayoutConstraint] {
         if lhs.anchors.count != rhs.anchors.count {
             fatalError("Constraint expression specified \(lhs.anchors.count) anchors left doesn't match \(rhs.anchors.count) in right.")
         }
+        var constraints = [NSLayoutConstraint]()
         for it in 0..<lhs.anchors.count {
             let leftAnchor = lhs.anchors[it]
             let rightAnchor = rhs.anchors[it]
-            leftAnchor == rightAnchor
+            constraints.append(leftAnchor == rightAnchor)
         }
+        return constraints
     }
     
 }
@@ -183,8 +185,7 @@ extension FLAnchorWithOffsetBaseClass {
 extension FLAnchorWithOffsetBaseClass {
     
     @discardableResult
-    public static func == (lhs: FLAnchorWithOffsetBaseClass, rhs: FLAnchorWithOffsetBaseClass) -> [NSLayoutConstraint] {
-        var constraints = [NSLayoutConstraint]()
+    public static func == (lhs: FLAnchorWithOffsetBaseClass, rhs: FLAnchorWithOffsetBaseClass) -> NSLayoutConstraint {
         lhs.makeSureDefaultMultiplier()
         let offset = rhs.offset - lhs.offset
         let multiplier = rhs.multiplier
@@ -192,21 +193,21 @@ extension FLAnchorWithOffsetBaseClass {
             guard let rhsAnchor = rhs.anchorObject as? NSLayoutDimension else {
                 fatalError("Constraint expression left is NSLayoutDimesion, but right isn't.")
             }
-            constraints.append(lhsAnchor == rhsAnchor * multiplier + offset)
+            return lhsAnchor == rhsAnchor * multiplier + offset
         }
         if let lhsAnchor = lhs.anchorObject as? NSLayoutXAxisAnchor {
             guard let rhsAnchor = rhs.anchorObject as? NSLayoutXAxisAnchor else {
                 fatalError("Constraint expression left is NSLayoutXAxisAnchor, but right isn't.")
             }
-            constraints.append(lhsAnchor == rhsAnchor * multiplier + offset)
+            return lhsAnchor == rhsAnchor * multiplier + offset
         }
         if let lhsAnchor = lhs.anchorObject as? NSLayoutYAxisAnchor {
             guard let rhsAnchor = rhs.anchorObject as? NSLayoutYAxisAnchor else {
                 fatalError("Constraint expression left is NSLayoutYAxisAnchor, but right isn't.")
             }
-            constraints.append(lhsAnchor == rhsAnchor * multiplier + offset)
+            return lhsAnchor == rhsAnchor * multiplier + offset
         }
-        return constraints
+        fatalError("Constraint expression left is not a vaild anchor.")
     }
     
 }
