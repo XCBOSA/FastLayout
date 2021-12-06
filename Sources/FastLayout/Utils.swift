@@ -59,11 +59,16 @@ extension UIView {
         return self.centerYAnchor
     }
     
-    public var center: FLAnchorGroup { self.centerX & self.centerY }
+    public var centerXY: FLAnchorGroup { self.centerX & self.centerY }
+    public var centerYX: FLAnchorGroup { self.centerY & self.centerX }
     public var leftTop: FLAnchorGroup { self.left & self.top }
     public var rightTop: FLAnchorGroup { self.right & self.top }
     public var leftBottom: FLAnchorGroup { self.left & self.bottom }
     public var rightBottom: FLAnchorGroup { self.right & self.bottom }
+    public var topLeft: FLAnchorGroup { self.top & self.left }
+    public var topRight: FLAnchorGroup { self.top & self.right }
+    public var bottomLeft: FLAnchorGroup { self.bottom & self.left }
+    public var bottomRight: FLAnchorGroup { self.bottom & self.right }
     public var size: FLAnchorGroup { self.width & self.height }
     
     public var firstBaseLine: NSLayoutYAxisAnchor {
