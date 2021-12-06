@@ -39,6 +39,7 @@ public class FLAnchorGroup {
         return FLAnchorGroup(withAnchors: anchors)
     }
     
+    @discardableResult
     public static func == (lhs: FLAnchorGroup, rhs: FLAnchorGroup) -> [NSLayoutConstraint] {
         if lhs.anchors.count != rhs.anchors.count {
             fatalError("Constraint expression specified \(lhs.anchors.count) anchors left doesn't match \(rhs.anchors.count) in right.")
