@@ -7,7 +7,6 @@
 
 import UIKit
 
-@MainActor
 public class FLConstraintRecorder {
     
     public static let standard = FLConstraintRecorder()
