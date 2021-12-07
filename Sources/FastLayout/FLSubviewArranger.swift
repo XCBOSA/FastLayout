@@ -56,6 +56,7 @@ public class FLSubviewArranger {
         _ = subviews.map({ $0.view.translatesAutoresizingMaskIntoConstraints = false })
         view.addSubViews(subviews.map({ $0.view }))
         let _: [Void] = subviews.map({ $0.constraintExpressions($0.view) })
+        let _: [Void] = constraintExpressions.map({ $0() })
     }
     
 }
