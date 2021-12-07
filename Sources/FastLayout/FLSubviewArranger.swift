@@ -21,7 +21,8 @@ public class FLUIViewWithConstraint {
 
 public class FLSubviewArranger {
     
-    public private(set) var subviews: [FLUIViewWithConstraint] = [FLUIViewWithConstraint]()
+    public private(set) var subviews = [FLUIViewWithConstraint]()
+    public private(set) var constraintExpressions = [() -> Void]()
     public private(set) weak var view: UIView?
     
     init (view: UIView) {
@@ -42,6 +43,12 @@ public class FLSubviewArranger {
     @discardableResult
     public func addSubview(_ subview: UIView, _ constraintExpression: @escaping (UIView) -> Void) -> FLSubviewArranger {
         add(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: constraintExpression))
+    }
+    
+    @discardableResult
+    public func addConstraintExpression(_ expression: @escaping () -> Void) -> FLSubviewArranger {
+        self.constraintExpressions.append(expression)
+        return self
     }
     
     public func finish() {
@@ -99,8 +106,12 @@ extension UIView {
         arranger.add(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: { _ in }))
     }
     
-    @discardableResult func sub(_ subview: UIView, _ expression: @escaping (UIView) -> Void) -> FLSubviewArranger {
-        arrangerAddSubview(subview, expression)
+    @discardableResult
+    /// 如果当前UIView未进行beginArrangeSubviews()或已经调用endArrangeSubviews()，则创建一个新的Arranger并添加约束表达式，否则使用当前UIView的Arranger添加约束表达式
+    /// - Parameter expression: 约束表达式
+    /// - Returns: Arranger
+    public func arrangerAddConstraintExpression(_ expression: @escaping () -> Void) -> FLSubviewArranger {
+        arranger.addConstraintExpression(expression)
     }
     
     @discardableResult
