@@ -46,6 +46,7 @@ public class FLSubviewArranger {
     
     public func finish() {
         guard let view = view else { return }
+        _ = subviews.map({ $0.view.translatesAutoresizingMaskIntoConstraints = false })
         view.addSubViews(subviews.map({ $0.view }))
         let _: [Void] = subviews.map({ $0.constraintExpressions($0.view) })
     }
@@ -96,6 +97,10 @@ extension UIView {
     /// - Returns: Arranger
     public func arrangerAddSubview(_ subview: UIView) -> FLSubviewArranger {
         arranger.add(subviewWithConstraint: FLUIViewWithConstraint(view: subview, expression: { _ in }))
+    }
+    
+    @discardableResult func sub(_ subview: UIView, _ expression: @escaping (UIView) -> Void) -> FLSubviewArranger {
+        arrangerAddSubview(subview, expression)
     }
     
     @discardableResult
