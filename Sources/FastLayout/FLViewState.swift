@@ -13,7 +13,7 @@ public class FLViewState {
     public private(set) var constraintGroup = [NSLayoutConstraint]()
     public private(set) var checker: FLViewStateCheckerBlock
     
-    init (checkerBlock: @escaping FLViewStateCheckerBlock, constraints: [NSLayoutConstraint]) {
+    public init (checkerBlock: @escaping FLViewStateCheckerBlock, constraints: [NSLayoutConstraint]) {
         self.checker = checkerBlock
         self.constraintGroup = constraints
     }
@@ -31,6 +31,8 @@ public class FLViewState {
 }
 
 public class FLViewStateManager {
+    public init () { }
+    
     public var viewStates = [FLViewState]()
     
     public func register(viewState: FLViewState) {
