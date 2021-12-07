@@ -165,7 +165,6 @@ extension UILayoutGuide {
     
 }
 
-@MainActor
 public func FLCreateAndActiveConstraint<AnchorType>(_ lhs: NSLayoutAnchor<AnchorType>, _ rhs: NSLayoutAnchor<AnchorType>, method: (NSLayoutAnchor<AnchorType>, NSLayoutAnchor<AnchorType>) -> NSLayoutConstraint) -> NSLayoutConstraint {
     let constraint = method(lhs, rhs)
     constraint.isActive = true
@@ -173,7 +172,6 @@ public func FLCreateAndActiveConstraint<AnchorType>(_ lhs: NSLayoutAnchor<Anchor
     return constraint
 }
 
-@MainActor
 public func FLCreateAndActiveConstraint__<AnchorType>(_ lhs: AnchorType, _ rhs: CGFloat, method: (AnchorType, CGFloat) -> NSLayoutConstraint) -> NSLayoutConstraint {
     let constraint = method(lhs, rhs)
     constraint.isActive = true
