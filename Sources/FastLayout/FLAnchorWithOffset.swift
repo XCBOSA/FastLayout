@@ -66,9 +66,11 @@ public class FLAnchorWithOffset<AnchorType>: FLAnchorWithOffsetBaseClass where A
     }
 }
 
+@MainActor
 public func FLCreateAndActiveConstraint<AnchorType>(_ lhs: AnchorType, _ rhs: FLAnchorWithOffset<AnchorType>, method: (AnchorType, FLAnchorWithOffset<AnchorType>) -> NSLayoutConstraint) -> NSLayoutConstraint {
     let constraint = method(lhs, rhs)
     constraint.isActive = true
+    FLConstraintRecorder.standard.add(constraint: constraint)
     return constraint
 }
 
