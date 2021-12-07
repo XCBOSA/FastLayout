@@ -13,14 +13,17 @@ public class FLViewState {
     public private(set) var constraintGroup = [NSLayoutConstraint]()
     public private(set) var checker: FLViewStateCheckerBlock
     
-    public init (checkerBlock: @escaping FLViewStateCheckerBlock, constraints: [NSLayoutConstraint]) {
+    public init (checkerBlock: @escaping FLViewStateCheckerBlock) {
         self.checker = checkerBlock
-        self.constraintGroup = constraints
     }
     
     public func append(_ constraintObject: NSLayoutConstraint) {
         constraintObject.isActive = isActive
         self.constraintGroup.append(constraintObject)
+    }
+    
+    public func append(contentsOf contents: [NSLayoutConstraint]) {
+        _ = contents.map({ self.append($0) })
     }
     
     public var isActive: Bool = false {
