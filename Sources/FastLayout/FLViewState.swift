@@ -61,9 +61,6 @@ public class FLViewStateManager {
     }
     
     public func triggerViewSizeChanged(width: CGFloat, height: CGFloat) {
-        let enableConstraints = viewStates.filter({ $0.checker(width, height) })
-        let disableConstraints = viewStates.filter({ !$0.checker(width, height) })
-        _ = enableConstraints.map({ $0.isActive = true })
-        _ = disableConstraints.map({ $0.isActive = false })
+        _ = self.viewStates.map({ $0.isActive = $0.checker(width, height) })
     }
 }
