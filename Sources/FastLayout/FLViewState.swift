@@ -71,7 +71,7 @@ extension FLViewStateManager {
     
     public typealias ConstraintLoader = () -> Void
     
-    public func configureWith(horizontal: ConstraintLoader, portrait: ConstraintLoader) {
+    public func configure(withHorizontal horizontal: ConstraintLoader, portrait: ConstraintLoader) {
         if self.viewStates.count > 0 {
             fatalError("FLViewStateManager.configureWith(horizontal: portrait:) can't called after register(viewState:) called.")
         }
