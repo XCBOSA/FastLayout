@@ -17,6 +17,8 @@ public class FLViewState {
     public private(set) var checker: FLViewStateCheckerBlock
     public private(set) var recorder: FLConstraintRecorder?
     
+    fileprivate var isExtensionCreated: Bool = false
+    
     public init (checkerBlock: @escaping FLViewStateCheckerBlock) {
         self.checker = checkerBlock
     }
@@ -54,7 +56,7 @@ public class FLViewState {
 public class FLViewStateManager {
     public init () { }
     
-    public var viewStates = [FLViewState]()
+    public private(set) var viewStates = [FLViewState]()
     
     public func register(viewState: FLViewState) {
         self.viewStates.append(viewState)
@@ -63,4 +65,46 @@ public class FLViewStateManager {
     public func triggerViewSizeChanged(width: CGFloat, height: CGFloat) {
         _ = self.viewStates.map({ $0.isActive = $0.checker(width, height) })
     }
+}
+
+extension FLViewStateManager {
+    
+    public typealias ConstraintLoader = () -> Void
+    
+    public func configureWith(horizontal: ConstraintLoader, portrait: ConstraintLoader) {
+        if self.viewStates.count > 0 {
+            fatalError("FLViewStateManager.configureWith(horizontal: portrait:) can't called after register(viewState:) called.")
+        }
+        let horizontalState = FLViewState(configureWithRecorder: .standard, checkerBlock: FLViewStateCheckerBlockHorizontal)
+        horizontalState.isExtensionCreated = true
+        horizontal()
+        horizontalState.finishRecorder()
+        let portraitState = FLViewState(configureWithRecorder: .standard, checkerBlock: FLViewStateCheckerBlockPortrait)
+        portraitState.isExtensionCreated = true
+        portrait()
+        portraitState.finishRecorder()
+        self.register(viewState: horizontalState)
+        self.register(viewState: portraitState)
+    }
+    
+    public var horizontalState: FLViewState {
+        if self.viewStates.count < 2 {
+            fatalError("FLViewStateManager.horizontalState can't called before FLViewStateManager.configureWith(horizontal: portrait:)")
+        }
+        if !self.viewStates[0].isExtensionCreated {
+            fatalError("FLViewStateManager.horizontalState can't called on FLViewStateManager instance where created by register(viewState:)")
+        }
+        return self.viewStates[0]
+    }
+    
+    public var portraitState: FLViewState {
+        if self.viewStates.count < 2 {
+            fatalError("FLViewStateManager.portraitState can't called before FLViewStateManager.configureWith(horizontal: portrait:)")
+        }
+        if !self.viewStates[1].isExtensionCreated {
+            fatalError("FLViewStateManager.portraitState can't called on FLViewStateManager instance where created by register(viewState:)")
+        }
+        return self.viewStates[1]
+    }
+    
 }
