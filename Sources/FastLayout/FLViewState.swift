@@ -71,15 +71,15 @@ extension FLViewStateManager {
     
     public typealias ConstraintLoader = () -> Void
     
-    public func configure(withHorizontal horizontal: ConstraintLoader, portrait: ConstraintLoader) {
+    public func configure(withHorizontal horizontal: ConstraintLoader, portrait: ConstraintLoader, horizontalBlock: FLViewStateCheckerBlock? = nil, portraitBlock: FLViewStateCheckerBlock? = nil) {
         if self.viewStates.count > 0 {
             fatalError("FLViewStateManager.configureWith(horizontal: portrait:) can't called after register(viewState:) called.")
         }
-        let horizontalState = FLViewState(configureWithRecorder: .standard, checkerBlock: FLViewStateCheckerBlockHorizontal)
+        let horizontalState = FLViewState(configureWithRecorder: .standard, checkerBlock: horizontalBlock ?? FLViewStateCheckerBlockHorizontal)
         horizontalState.isExtensionCreated = true
         horizontal()
         horizontalState.finishRecorder()
-        let portraitState = FLViewState(configureWithRecorder: .standard, checkerBlock: FLViewStateCheckerBlockPortrait)
+        let portraitState = FLViewState(configureWithRecorder: .standard, checkerBlock: portraitBlock ?? FLViewStateCheckerBlockPortrait)
         portraitState.isExtensionCreated = true
         portrait()
         portraitState.finishRecorder()
