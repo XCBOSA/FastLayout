@@ -38,6 +38,10 @@ public class FLViewState {
         _ = contents.map({ self.append($0) })
     }
     
+    public func remove(content: NSLayoutConstraint) {
+        self.constraintGroup.removeAll(where: { $0 == content })
+    }
+    
     public func finishRecorder() {
         guard let recorder = self.recorder else {
             fatalError("FLViewState.finishRecorder() must called on object which init with init(configureWithRecorder: checkerBlock:), or FLViewState.finishRecorder() has already called on this object.")
