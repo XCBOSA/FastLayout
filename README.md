@@ -1,72 +1,32 @@
 # FastLayout
-  
-FastLayout is a UIKit or AppKit package for fast UI design.  
-  
-### Layout Example
-```
-import FastLayout
 
-// MARK: - Create and configure subviews
-let label = UILabel()
-let button = UIButton()
-label.text = "Hello"
-label.textAlignment = .center
-button.setTitle("hello world", for: .normal)
-button.setTitleColor(.link, for: .normal)
+### FastLayout is a package that use symbol overloading to let you write constraint more enjoyable. Here is a small example to describe what FastLayout can do.
 
-// MARK: - Arrange subview layout
-self.view.beginArrangeSubviews()
-self.view.arrangerAddSubview(label) {
-    $0.leftRight == self.view.leftRight
-    $0.top == self.view.safeArea.top
-    $0.height == 30                                     // Constraint to 30
-}
-self.view.arrangerAddSubview(button) {
-    $0.leftTop == self.view.left & (label.bottom + 10)  // left = superLeft, top = label.bottom (offset 10)
-    $0.right == self.view.right
-    $0.height == label.height * 2                       // height = label.height (multiplier 2)
-}
-self.view.endArrangeSubviews()
+Before using FastLayout, to add a constraint in autolayout, you should do:
+```swift
+XXX.translatesAutoresizingMaskIntoConstraints = false
+XXX.left.constraint(equalTo: YYY.leftAnchor).isActive = true
 ```
-### Example: Display MxN button matrix
+after import FastLayout, you only need to:
+```swift
+XXX.left == YYY.left
 ```
-self.view.beginArrangeSubviews()
-        
-var btns = [[UIButton]]()
-let lineCount = 10
-let columnCount = 10
-for lineId in 0..<lineCount {
-    var line = [UIButton]()
-    for columnId in 0..<columnCount {
-        let btn = UIButton()
-        btn.backgroundColor = .cyan
-        btn.setTitle("(\(lineId), \(columnId))", for: .normal)
-        line.append(btn)
-        self.view.arrangerAddSubview(btn) {
-            if columnId == 0 {
-                $0.left == self.view.left
-            }
-            if columnId == columnCount - 1 {
-                $0.right == self.view.right
-            }
-            if lineId == 0 {
-                $0.top == self.view.safeAreaLayoutGuide.topAnchor
-            }
-            if lineId == lineCount - 1 {
-                $0.bottom == self.view.bottomAnchor
-            }
-            if columnId > 0 {
-                $0.width == line[columnId - 1].width
-                $0.left == line[columnId - 1].right + 1
-            }
-            if lineId > 0 {
-                $0.height == btns[lineId - 1][columnId].height
-                $0.top == btns[lineId - 1][columnId].bottom + 1
-            }
-        }
-    }
-    btns.append(line)
-}
 
-self.view.endArrangeSubviews()
-```
+This is FastLayout, and I support UIKit / AppKit.
+
+## Installation
+> Just add this project using SwiftPackageManager.
+> https://github.com/XCBOSA/FastLayout.git
+
+## Usage
+1. import FastLayout
+2. Remove all XXX.translatesAutoresizingMaskIntoConstraints = false
+3. label.left == self.view.leftAnchor
+
+## Notice
+When you using XXX.left (without Anchor) member, fastlayout will auto execute `XXX.translatesAutoresizingMaskIntoConstraints = false`, that may cause confusion if the XXX view not use AutoLayout to manage, such as UIViewController's view, and many system views.
+
+To avoid this, please use `XXX.left == self.view.leftAnchor`.
+
+## Help Needed
+And also I want a star:)
